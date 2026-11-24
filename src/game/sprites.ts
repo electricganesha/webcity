@@ -142,8 +142,27 @@ export function makeTileTexture(
     g.poly([2, 6, s / 2, 2, s - 4, 6, s - 2, 7, s / 2 + 2, 3, 4, 7]).fill({
       color: 0x8a3324,
     }); // Roof
-  } else if (id === TileId.Apartment || id === TileId.ApartmentLarge) {
-    g.rect(2, 4, s - 6, s - 6).fill({ color: 0xd2b48c }); // Front
+  } else if (id === TileId.House2) {
+    g.rect(4, 5, s - 8, s - 9).fill({ color: 0xfffafa }); // White front
+    g.rect(s - 4, 6, 2, s - 10).fill({ color: 0xdddddd }); // Light gray side
+    g.poly([4, 5, s / 2, 2, s - 4, 5, s - 2, 6, s / 2 + 2, 3, 6, 6]).fill({
+      color: 0x2f4f4f,
+    }); // Dark roof
+  } else if (id === TileId.House3) {
+    g.rect(3, 7, s - 6, s - 11).fill({ color: 0xdeb887 }); // Tan front
+    g.rect(s - 3, 8, 2, s - 12).fill({ color: 0x8b4513 }); // Brown side
+    g.poly([2, 8, s - 4, 8, s - 2, 7, 4, 7]).fill({ color: 0x556b2f }); // Flat green roof
+  } else if (
+    id === TileId.Apartment ||
+    id === TileId.ApartmentLarge ||
+    id === TileId.Apartment2 ||
+    id === TileId.ApartmentLarge2
+  ) {
+    const baseColor =
+      id === TileId.Apartment2 || id === TileId.ApartmentLarge2
+        ? 0xf4a460
+        : 0xd2b48c;
+    g.rect(2, 4, s - 6, s - 6).fill({ color: baseColor }); // Front
     g.rect(s - 4, 6, 2, s - 8).fill({ color: 0x8b7355 }); // Side
     g.rect(2, 3, s - 6, 1).fill({ color: 0xcd853f }); // Roof
     // Windows
@@ -151,8 +170,16 @@ export function makeTileTexture(
       g.rect(4, y, 2, 1).fill({ color: 0xadd8e6 });
       g.rect(8, y, 2, 1).fill({ color: 0xadd8e6 });
     }
-  } else if (id === TileId.SkyscraperR || id === TileId.SkyscraperC) {
-    const baseColor = id === TileId.SkyscraperR ? 0x4682b4 : 0x2f4f4f;
+  } else if (
+    id === TileId.SkyscraperR ||
+    id === TileId.SkyscraperC ||
+    id === TileId.SkyscraperR2 ||
+    id === TileId.SkyscraperC2
+  ) {
+    let baseColor = id === TileId.SkyscraperR ? 0x4682b4 : 0x2f4f4f;
+    if (id === TileId.SkyscraperR2) baseColor = 0x6495ed;
+    if (id === TileId.SkyscraperC2) baseColor = 0x556b2f;
+
     g.rect(2, 1, s - 6, s - 2).fill({ color: baseColor }); // Front
     g.rect(s - 4, 3, 2, s - 4).fill({ color: 0x1c1c1c, alpha: 0.5 }); // Side depth
     // Windows
@@ -161,30 +188,92 @@ export function makeTileTexture(
         g.rect(x, y, 1, 1).fill({ color: 0xfdfd96 });
       }
     }
-  } else if (id === TileId.ShopSmall || id === TileId.ShopMedium) {
-    g.rect(2, 6, s - 4, s - 8).fill({ color: 0xf5f5dc });
-    g.rect(2, 5, s - 4, 2).fill({ color: 0x8b0000 }); // Awning
+  } else if (
+    id === TileId.ShopSmall ||
+    id === TileId.ShopMedium ||
+    id === TileId.ShopSmall2 ||
+    id === TileId.ShopMedium2
+  ) {
+    const baseColor =
+      id === TileId.ShopSmall2 || id === TileId.ShopMedium2
+        ? 0xffebcd
+        : 0xf5f5dc;
+    const awningColor =
+      id === TileId.ShopSmall2 || id === TileId.ShopMedium2
+        ? 0x006400
+        : 0x8b0000;
+
+    g.rect(2, 6, s - 4, s - 8).fill({ color: baseColor });
+    g.rect(2, 5, s - 4, 2).fill({ color: awningColor }); // Awning
     g.rect(4, 9, 3, 4).fill({ color: 0xadd8e6 }); // Window/Door
-  } else if (id === TileId.OfficeSmall || id === TileId.OfficeLarge) {
-    g.rect(2, 3, s - 4, s - 4).fill({ color: 0x708090 });
+  } else if (
+    id === TileId.OfficeSmall ||
+    id === TileId.OfficeLarge ||
+    id === TileId.OfficeSmall2 ||
+    id === TileId.OfficeLarge2
+  ) {
+    const baseColor =
+      id === TileId.OfficeSmall2 || id === TileId.OfficeLarge2
+        ? 0xb0c4de
+        : 0x708090;
+    g.rect(2, 3, s - 4, s - 4).fill({ color: baseColor });
     for (let y = 5; y < s - 2; y += 3) {
       g.rect(4, y, s - 8, 1).fill({ color: 0x1c1c1c, alpha: 0.3 }); // Window bands
     }
   } else if (
     id === TileId.FactorySmall ||
     id === TileId.FactoryMedium ||
-    id === TileId.FactoryLarge
+    id === TileId.FactoryLarge ||
+    id === TileId.FactorySmall2 ||
+    id === TileId.FactoryMedium2 ||
+    id === TileId.FactoryLarge2
   ) {
-    g.rect(2, 6, s - 6, s - 8).fill({ color: 0x696969 }); // Main
+    const baseColor =
+      id === TileId.FactorySmall2 ||
+      id === TileId.FactoryMedium2 ||
+      id === TileId.FactoryLarge2
+        ? 0x778899
+        : 0x696969;
+    g.rect(2, 6, s - 6, s - 8).fill({ color: baseColor }); // Main
     g.rect(s - 4, 8, 2, s - 10).fill({ color: 0x333333 }); // Side
     // Sawtooth roof
     for (let x = 2; x < s - 6; x += 4) {
       g.poly([x, 6, x + 4, 6, x + 2, 3]).fill({ color: 0x555555 });
     }
-    g.rect(4, 2, 2, 6).fill({ color: 0x2a2a2a }); // Smokestack
-  } else if (id === TileId.Wholesale) {
-    g.rect(1, 5, s - 2, s - 6).fill({ color: 0xbc8f8f });
+    const stackX = id % 2 === 0 ? 4 : s - 6;
+    g.rect(stackX, 2, 2, 6).fill({ color: 0x2a2a2a }); // Smokestack
+  } else if (id === TileId.Wholesale || id === TileId.Wholesale2) {
+    const baseColor = id === TileId.Wholesale2 ? 0xbc8f8f : 0xcd853f;
+    g.rect(1, 5, s - 2, s - 6).fill({ color: baseColor });
     g.rect(4, 10, 4, 3).fill({ color: 0x4a4a4a }); // Loading dock
+  } else if (id === TileId.Car || id === TileId.Car2) {
+    const carColor = id === TileId.Car ? 0xff0000 : 0x0000ff;
+    // Smaller car dimensions: 8x5 for 32px tile
+    const cw = size / 4;
+    const ch = size / 6;
+    g.rect(size / 2 - cw / 2, size / 2 - ch / 2, cw, ch).fill({
+      color: carColor,
+    });
+    g.rect(size / 2 - cw / 2 + 1, size / 2 - ch / 2 + 1, cw - 3, ch - 2).fill({
+      color: 0xffffff,
+      alpha: 0.3,
+    }); // Windshield
+    // Tiny wheels
+    g.rect(size / 2 - cw / 2 + 1, size / 2 - ch / 2 - 1, 1, 1).fill({
+      color: 0x000000,
+    });
+    g.rect(size / 2 + cw / 2 - 2, size / 2 - ch / 2 - 1, 1, 1).fill({
+      color: 0x000000,
+    });
+    g.rect(size / 2 - cw / 2 + 1, size / 2 + ch / 2, 1, 1).fill({
+      color: 0x000000,
+    });
+    g.rect(size / 2 + cw / 2 - 2, size / 2 + ch / 2, 1, 1).fill({
+      color: 0x000000,
+    });
+  } else if (id === TileId.Smoke) {
+    g.circle(s / 2, s / 2, s / 3).fill({ color: 0xffffff, alpha: 0.6 });
+    g.circle(s / 2 - 2, s / 2 - 2, s / 5).fill({ color: 0xcccccc, alpha: 0.4 });
   } else if (id === TileId.Stadium) {
     g.ellipse(s / 2, s / 2 + 1, s / 2 - 2, s / 3).fill({ color: 0x2e8b57 }); // Field
     g.ellipse(s / 2, s / 2, s / 2 - 1, s / 3 + 1).stroke({
@@ -261,6 +350,20 @@ export function makeNoPowerTexture(renderer: Renderer, size = 16): Texture {
     s * 0.5,
     s * 0.4,
   ]).fill({ color: 0xffff00 });
+
+  const rt = RenderTexture.create({ width: s, height: s });
+  renderer.render({ container: g, target: rt });
+  g.destroy();
+  return rt;
+}
+
+export function makeHoverTexture(renderer: Renderer, size = 16): Texture {
+  const g = new Graphics();
+  const s = size;
+  // White border highlight
+  g.rect(0, 0, s, s).stroke({ width: 2, color: 0xffffff, alpha: 0.8 });
+  // Subtle fill
+  g.rect(0, 0, s, s).fill({ color: 0xffffff, alpha: 0.2 });
 
   const rt = RenderTexture.create({ width: s, height: s });
   renderer.render({ container: g, target: rt });
